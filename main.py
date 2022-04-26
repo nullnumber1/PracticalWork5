@@ -18,17 +18,18 @@ if __name__ == '__main__':
 
     # Экстремальные значения и размах
     print(line)
-    print('Экстремальные значения:\nX[1] = ' + str(sorted_list['VALUES'].iat[0]) + '\nX[n] = ' + str(
-        sorted_list['VALUES'].iat[-1]) + '\n')
+    print('Экстремальные значения:\nX[1] = ' + str(sorted_list['VALUES'].iat[0]) + '\nX[n] = ' + str(sorted_list['VALUES'].iat[-1]) + '\n')
     print('Размах: ' + str(sorted_list['VALUES'].iat[-1] - sorted_list['VALUES'].iat[0]))
 
     # Оценки мат. ожидания и среднеквадратического отклонения
     print(line)
     print('Математическое ожидание: ' + str(sorted_list['VALUES'].mean()))
     print('Среднеквадратическое отклонение: ' + str(sorted_list['VALUES'].std()))
+    print(line)
 
     # График эмпирической функции распределения
     ecdf = sm.distributions.ECDF(sorted_list['VALUES'])
+    print('Значения функции эмпирического распределения:\n' + str(ecdf.y))
     x = np.linspace(min(sorted_list['VALUES']), max(sorted_list['VALUES']))
     y = ecdf(x)
     plt.step(x, y, color='green')
