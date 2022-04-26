@@ -2,10 +2,11 @@ import numpy as np
 from pandas import read_csv
 import statsmodels.api as sm
 import matplotlib.pyplot as plt
+from math import *
 
 if __name__ == '__main__':
-    line = '_________________________\n'
-    values = read_csv('data.csv', ",")
+    line = '______________________________________________________________________\n'
+    values = read_csv('data.csv')
 
     # Вариационный ряд
     print(line)
@@ -18,8 +19,10 @@ if __name__ == '__main__':
 
     # Экстремальные значения и размах
     print(line)
-    print('Экстремальные значения:\nX[1] = ' + str(sorted_list['VALUES'].iat[0]) + '\nX[n] = ' + str(sorted_list['VALUES'].iat[-1]) + '\n')
-    print('Размах: ' + str(sorted_list['VALUES'].iat[-1] - sorted_list['VALUES'].iat[0]))
+    print('Экстремальные значения:\nX[1] = ' + str(sorted_list['VALUES'].iat[0]) + '\nX[n] = ' + str(
+        sorted_list['VALUES'].iat[-1]) + '\n')
+    scope = sorted_list['VALUES'].iat[-1] - sorted_list['VALUES'].iat[0]
+    print('Размах: ' + str(scope))
 
     # Оценки мат. ожидания и среднеквадратического отклонения
     print(line)
@@ -35,9 +38,15 @@ if __name__ == '__main__':
     plt.step(x, y, color='green')
     plt.title('Эмпирическая функция распределения')
     plt.show()
+    print(line)
 
     # Гистограмма и график статистического распределения
-    histogram = sorted_list['VALUES'].hist(bins=20, color='green', edgecolor='black')
+    height = scope / (1 + log2(sorted_list['VALUES'].size))
+    print('Значение h для гистограммы: ' + str(height))
+    bins = np.arange(sorted_list['VALUES'].iat[0], sorted_list['VALUES'].iat[-1], height)
+    histogram = sorted_list['VALUES'].hist(bins=bins, color='green', edgecolor='black')
+    histogram.xaxis.set_tick_params(labelsize=8)
+    plt.xticks(np.arange(sorted_list['VALUES'].iat[0] + height / 2, sorted_list['VALUES'].iat[-1], height))
     sorted_list.plot(kind='kde', ax=histogram, secondary_y=True)
     plt.title('Графическое изображение статистического распределения')
     plt.show()
