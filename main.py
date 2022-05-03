@@ -43,10 +43,19 @@ if __name__ == '__main__':
     # Гистограмма и график статистического распределения
     height = scope / (1 + log2(sorted_list['VALUES'].size))
     print('Значение h для гистограммы: ' + str(height))
+    # Считаем интервалы
     bins = np.arange(sorted_list['VALUES'].iat[0], sorted_list['VALUES'].iat[-1], height)
+    print('Интервалы гистограммы:\n' + str(bins))
+    # Построение гистограммы
     histogram = sorted_list['VALUES'].hist(bins=bins, color='green', edgecolor='black')
     histogram.xaxis.set_tick_params(labelsize=8)
-    plt.xticks(np.arange(sorted_list['VALUES'].iat[0] + height / 2, sorted_list['VALUES'].iat[-1], height))
-    sorted_list.plot(kind='kde', ax=histogram, secondary_y=True)
-    plt.title('Графическое изображение статистического распределения')
+    # Маркировка середин интервалов
+    middles = np.arange(sorted_list['VALUES'].iat[0] + height / 2, sorted_list['VALUES'].iat[-1], height)
+    plt.xticks(middles)
+    plt.title('Гистограмма')
+    plt.show()
+
+    # Полигон частот
+    sorted_list['VALUES'].plot.kde(ind=bins.size, color='green')
+    plt.title('Полигон частот')
     plt.show()
