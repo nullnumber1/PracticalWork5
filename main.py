@@ -56,6 +56,7 @@ if __name__ == '__main__':
     plt.show()
 
     # Полигон частот
-    sorted_list['VALUES'].plot.kde(ind=bins.size, color='green')
+    polygon = sorted_list['VALUES'].plot.kde(ind=bins.size, color='green')
+    print(polygon.get_lines()[0].get_data())
     plt.title('Полигон частот')
     plt.show()
